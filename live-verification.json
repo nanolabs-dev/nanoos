@@ -1,0 +1,36 @@
+{
+  "live": {
+    "loader_url": "https://nanolabs-dev.github.io/nanoos/",
+    "http_status": 200,
+    "browser": "157.0.8103.51",
+    "fragment_preserved": true,
+    "nanoLabs_attribution": true,
+    "notes_reload": true,
+    "offline_after_boot": true,
+    "page_errors": [],
+    "network_requests_after_boot": 0
+  },
+  "qr": {
+    "png": {
+      "rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "size_740px": true,
+      "decoded_url_matches": true
+    },
+    "svg_render": {
+      "rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "size_740px": true,
+      "decoded_url_matches": true
+    }
+  },
+  "all_passed": true
+}

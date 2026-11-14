@@ -1,0 +1,22 @@
+{
+  "source_bytes": 6217,
+  "minified_bytes": 5929,
+  "compressed_bytes": 2790,
+  "fragment_characters": 4187,
+  "url_characters": 4226,
+  "prefix_bytes": 39,
+  "qr_version": 40,
+  "error_correction": "L",
+  "modules": 177,
+  "quiet_zone_modules": 4,
+  "png_pixels": 1480,
+  "data_bits_before_terminator": 23378,
+  "version_40_L_data_capacity_bits": 23648,
+  "spare_bits_before_terminator": 270,
+  "qr_pixel_roundtrip": true,
+  "decompression_byte_equality": true,
+  "app_sha256": "8dbd4aff0ec3735c6265746507ca7e349826de6e23a134c328c8f57dbe41488c",
+  "packed_sha256": "f7471cf52b440ebd4f5bc4e47ef742dd77e94b179edde74ff806e26fe1f96c77",
+  "loader_bytes": 2609,
+  "loader_url": "https://nanolabs-dev.github.io/nanoos/"
+}

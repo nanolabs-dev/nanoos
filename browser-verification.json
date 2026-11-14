@@ -1,0 +1,17 @@
+{
+  "browser": "157.0.8103.51",
+  "checks": [
+    "terminal commands and text escaping",
+    "notes save, close/reopen and minimize/restore",
+    "window drag and focus",
+    "start menu, virtual files and offline operation",
+    "Unicode, empty-note and reload persistence",
+    "nanoLabs attribution in decoded application",
+    "390 × 844 touch layout",
+    "fragment preservation and malformed payload errors",
+    "local file launch without an HTTP server"
+  ],
+  "page_errors": [],
+  "app_network_requests_after_boot": 0,
+  "all_passed": true
+}
