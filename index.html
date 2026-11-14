@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QR application loader</title><style>body{margin:0;background:#071c25;color:#baf5ce;font:16px system-ui}p{margin:10vh auto;max-width:40em;padding:24px;line-height:1.6}iframe{position:fixed;inset:0;width:100%;height:100%;border:0}</style><p id="message">This is a generic QR application decoder. Open a complete URL with its # fragment to load an app.</p><script>
+(async()=>{
+try{
+const alphabet='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$*+-./:',hash=location.hash.slice(1);
+if(!hash)return;
+if(!hash.startsWith('1:'))throw Error('Unsupported payload version');
+const s=hash.slice(2),bytes=[];
+if(s.length>5000||s.length%3===1)throw Error('Invalid payload length');
+for(let i=0;i<s.length;i+=3){let n=0,k=Math.min(3,s.length-i);for(let j=0;j<k;j++){let d=alphabet.indexOf(s[i+j]);if(d<0)throw Error('Invalid payload character');n=n*43+d}if(n>=(k===3?65536:256))throw Error('Invalid payload block');if(k===3)bytes.push(n>>8);bytes.push(n&255)}
+const packed=new Uint8Array(bytes),stream=new Blob([packed]).stream().pipeThrough(new DecompressionStream('deflate')),reader=stream.getReader();let chunks=[],length=0;
+for(;;){let {value,done}=await reader.read();if(done)break;length+=value.length;if(length>100000){await reader.cancel();throw Error('Payload too large')}chunks.push(value)}
+const html=await new Blob(chunks).text(),digest=new Uint8Array(await crypto.subtle.digest('SHA-256',packed)),key='qr-app:'+Array.from(digest,b=>b.toString(16).padStart(2,'0')).join(''),frame=document.createElement('iframe');
+frame.title='Decoded QR application';frame.sandbox='allow-scripts allow-forms';
+addEventListener('message',e=>{if(e.source!==frame.contentWindow)return;let d=e.data;if(!d||typeof d!=='object')return;try{if(d.op==='get')e.source.postMessage({op:'value',value:localStorage.getItem(key)},'*');if(d.op==='set'&&typeof d.value==='string'&&d.value.length<=65536){localStorage.setItem(key,d.value);e.source.postMessage({op:'saved',ok:true},'*')}}catch{e.source.postMessage(d.op==='get'?{op:'value',value:null}:{op:'saved',ok:false},'*')}});
+document.body.replaceChildren(frame);
+frame.getBoundingClientRect();
+frame.srcdoc='<!doctype html><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; script-src \'unsafe-inline\'; style-src \'unsafe-inline\'; img-src data:; form-action \'none\'; base-uri \'none\'">'+html;
+}catch(e){document.getElementById('message').textContent='Cannot open this QR: '+e.message+'. Use a recent browser and the complete, unchanged URL.'}
+})();
+</script>
